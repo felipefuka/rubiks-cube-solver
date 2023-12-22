@@ -1,0 +1,30 @@
+C:\Users\felip\vsprojs\leetcode\bin\Debug\net7.0\leetcode.exe
+C:\Users\felip\vsprojs\leetcode\bin\Debug\net7.0\leetcode.deps.json
+C:\Users\felip\vsprojs\leetcode\bin\Debug\net7.0\leetcode.runtimeconfig.json
+C:\Users\felip\vsprojs\leetcode\bin\Debug\net7.0\leetcode.dll
+C:\Users\felip\vsprojs\leetcode\bin\Debug\net7.0\leetcode.pdb
+C:\Users\felip\vsprojs\leetcode\obj\Debug\net7.0\leetcode.csproj.AssemblyReference.cache
+C:\Users\felip\vsprojs\leetcode\obj\Debug\net7.0\leetcode.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\felip\vsprojs\leetcode\obj\Debug\net7.0\leetcode.AssemblyInfoInputs.cache
+C:\Users\felip\vsprojs\leetcode\obj\Debug\net7.0\leetcode.AssemblyInfo.cs
+C:\Users\felip\vsprojs\leetcode\obj\Debug\net7.0\leetcode.csproj.CoreCompileInputs.cache
+C:\Users\felip\vsprojs\leetcode\obj\Debug\net7.0\leetcode.dll
+C:\Users\felip\vsprojs\leetcode\obj\Debug\net7.0\refint\leetcode.dll
+C:\Users\felip\vsprojs\leetcode\obj\Debug\net7.0\leetcode.pdb
+C:\Users\felip\vsprojs\leetcode\obj\Debug\net7.0\leetcode.genruntimeconfig.cache
+C:\Users\felip\vsprojs\leetcode\obj\Debug\net7.0\ref\leetcode.dll
+C:\Users\felip\vsprojs\rubiks cube solver\bin\Debug\net7.0\leetcode.exe
+C:\Users\felip\vsprojs\rubiks cube solver\bin\Debug\net7.0\leetcode.deps.json
+C:\Users\felip\vsprojs\rubiks cube solver\bin\Debug\net7.0\leetcode.runtimeconfig.json
+C:\Users\felip\vsprojs\rubiks cube solver\bin\Debug\net7.0\leetcode.dll
+C:\Users\felip\vsprojs\rubiks cube solver\bin\Debug\net7.0\leetcode.pdb
+C:\Users\felip\vsprojs\rubiks cube solver\obj\Debug\net7.0\leetcode.csproj.AssemblyReference.cache
+C:\Users\felip\vsprojs\rubiks cube solver\obj\Debug\net7.0\leetcode.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\felip\vsprojs\rubiks cube solver\obj\Debug\net7.0\leetcode.AssemblyInfoInputs.cache
+C:\Users\felip\vsprojs\rubiks cube solver\obj\Debug\net7.0\leetcode.AssemblyInfo.cs
+C:\Users\felip\vsprojs\rubiks cube solver\obj\Debug\net7.0\leetcode.csproj.CoreCompileInputs.cache
+C:\Users\felip\vsprojs\rubiks cube solver\obj\Debug\net7.0\leetcode.dll
+C:\Users\felip\vsprojs\rubiks cube solver\obj\Debug\net7.0\refint\leetcode.dll
+C:\Users\felip\vsprojs\rubiks cube solver\obj\Debug\net7.0\leetcode.pdb
+C:\Users\felip\vsprojs\rubiks cube solver\obj\Debug\net7.0\leetcode.genruntimeconfig.cache
+C:\Users\felip\vsprojs\rubiks cube solver\obj\Debug\net7.0\ref\leetcode.dll
