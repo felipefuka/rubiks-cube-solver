@@ -9,6 +9,9 @@ internal class Program
         public int size = 3;
 
         public List<int> moves;
+
+        public int steps = 0;
+        
         public class Face {
             public char[][] face;
             public Face(char[][] cube) 
@@ -40,6 +43,38 @@ internal class Program
 
                 return true;
             }
+
+            internal int CalculateCrosses()
+            {
+                int count = 0;
+                char baseColor = face[1][1];
+                if (face[0][1] == baseColor)
+                    count++;
+                if (face[1][0] == baseColor)
+                    count++;
+                if (face[1][2] == baseColor)
+                    count++;
+                if (face[2][1] == baseColor)
+                    count++;
+
+                return count;
+            }
+
+            internal int CalculateSolved()
+            {
+                int count = 0;
+                char baseChar = face[1][1];
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        if (baseChar == face[i][j])
+                            count++;
+                    }
+                }
+
+                return count;
+            }
         }
 
         public Face front;
@@ -63,20 +98,21 @@ internal class Program
             back = new Face(original.back);
             bottom = new Face(original.bottom);
             moves = new List<int>(original.moves);
+            this.steps = original.steps;
         }
 
-        string[] moveDictionary = new string[]{
+        public string[] moveDictionary = new string[]{
             "MoveTopLeft", "MoveTopRight", "MoveBottomLeft", "MoveBottomRight", 
             "MoveLeftUp",  "MoveLeftDown", "MoveRightUp", "MoveRightDown", 
-            "TwistFrontLeft", "TwistFrontRight", "TwistBackLeft", "TwistBackRight"
+            "TwistFrontLeft", "TwistFrontRight", "TwistBackLeft", "TwistBackRight",
+            "MoveTopLeft x 2", "MoveBottomLeft x 2", "MoveLeftUp x 2", "MoveRightUp x 2",
+            "TwistFrontLeft x 2", "TwistBackLeft x 2"
         };
 
         public void Move(int move)
         {
             moves.Add(move);
-            if (move < 0 || 11 < move)
-                return;
-
+            steps++;
             switch (move)
             {
                 case 0:
@@ -114,6 +150,30 @@ internal class Program
                     break;
                 case 11:
                     TwistBackRight();
+                    break;
+                case 12:
+                    MoveTopLeft();
+                    MoveTopLeft();
+                    break;
+                case 13:
+                    MoveBottomLeft();
+                    MoveBottomLeft();
+                    break;
+                case 14:
+                    MoveLeftUp();
+                    MoveLeftUp();
+                    break;
+                case 15:
+                    MoveRightUp();
+                    MoveRightUp();
+                    break;
+                case 16:
+                    TwistFrontLeft();
+                    TwistFrontLeft();
+                    break;
+                case 17:
+                    TwistBackLeft();
+                    TwistBackLeft();
                     break;
             }
         }
@@ -366,6 +426,18 @@ internal class Program
             return front.IsSolved() && back.IsSolved() && top.IsSolved() && 
             left.IsSolved() && right.IsSolved() && bottom.IsSolved();
         }
+        
+        public int CalculateSolved()
+        {
+            return front.CalculateSolved() + back.CalculateSolved() + top.CalculateSolved() +
+            left.CalculateSolved() + right.CalculateSolved() + bottom.CalculateSolved();
+        }
+
+        public int CalculateCrosses()
+        {
+            return front.CalculateCrosses() + back.CalculateCrosses() + top.CalculateCrosses() +
+            left.CalculateCrosses() + right.CalculateCrosses() + bottom.CalculateCrosses();
+        }
 
         public void PrintStatus()
         {
@@ -428,6 +500,11 @@ internal class Program
 
             return hash.ToString().GetHashCode();
         }
+
+        internal void RemoveLastMove()
+        {
+            moves.RemoveAt(moves.Count - 1);
+        }
     }
 
     private static void Main(string[] args)
@@ -474,19 +551,70 @@ internal class Program
         // Console.WriteLine($"rubiks.IsSolved() == {result}");
         rubiks.PrintStatus();
         
+        BFS(rubiks);
+        // List<int> minMoves = new List<int>();
+        // DFS(rubiks, minMoves, new HashSet<int>(), new List<int>());
+
+    }
+
+    private static void DFS(RubiksCube rubiks, List<int> minMoves, HashSet<int> visited, List<int> moves) 
+    {
+        if (rubiks.IsSolved())
+        {
+            Console.WriteLine($"rubiks.IsSolved(): {string.Join(',', moves.Select(x => rubiks.moveDictionary[x]))}");
+            if (minMoves.Count == 0 || moves.Count < minMoves.Count)
+            {
+                minMoves = new List<int>(moves);
+            }
+            return;
+        } else if (moves.Count > 30)
+        {
+            return;
+        }
+
+        for (int i = 0; i < 12; i++)
+        {
+            moves.Add(i);
+            rubiks.Move(i);
+            if (visited.Add(rubiks.GetHash()))
+            {
+                DFS(rubiks, minMoves, visited, moves);
+            }
+            if (i % 2 == 0)
+            {
+                rubiks.Move(i + 1);
+            } else
+            {
+                rubiks.Move(i - 1);
+            }
+            rubiks.RemoveLastMove();
+            moves.RemoveAt(moves.Count - 1);
+        }
+    }
+
+    private static void BFS(RubiksCube rubiks)
+    {
         // BFS
         var currQ = new Queue<RubiksCube>();
-        var nextQ = new Queue<RubiksCube>();
+        var nextQ = new List<RubiksCube>();
         var hashes = new HashSet<int>
         {
             rubiks.GetHash()
         };
         currQ.Enqueue(rubiks);
-        int steps = 0;
-        while (steps < 30 && currQ.Count > 0)
+        int prevSteps = 0;
+        int prevSolved = rubiks.CalculateSolved();
+        int prevCrosses = rubiks.CalculateSolved();
+        int currSteps = 0;
+        while (currQ.Count > 0)
         {
             var cube = currQ.Dequeue();
-            for (int i = 0; i < 12; i++)
+            if (currSteps < cube.steps)
+            {
+                Console.WriteLine($"currSteps: {currSteps}");
+                currSteps = cube.steps;
+            }
+            for (int i = 0; i < 18; i++)
             {
                 var nextCube = new RubiksCube(cube);
                 nextCube.Move(i);
@@ -503,17 +631,32 @@ internal class Program
                 {
                     continue;
                 }
-                nextQ.Enqueue(nextCube);
+                int currCrosses = rubiks.CalculateCrosses();
+                int currSolved = rubiks.CalculateSolved();
+                if (prevCrosses < 6 * 4 && prevCrosses < currCrosses)
+                {
+                    nextQ.Add(nextCube);
+                    prevCrosses = currCrosses;
+                    prevSolved = currSolved;
+                    currQ = new();
+                    Console.WriteLine($"Found crossed solution!");
+                } else if (prevCrosses == 6 * 4 &&  prevSolved < currSolved)
+                {
+                    nextQ.Add(nextCube);
+                    prevSolved = currSolved;
+                } else
+                {
+                    currQ.Enqueue(nextCube);
+                }
             }
             if (currQ.Count == 0)
             {
-                currQ = nextQ;
+                currQ = new Queue<RubiksCube>(nextQ.OrderByDescending(x => x.CalculateCrosses()).ThenByDescending(x => x.CalculateSolved()));
                 nextQ = new();
-                steps++;
-                Console.WriteLine($"step: {steps}. currQ.Count: {currQ.Count}. aprox {System.Numerics.BigInteger.Pow(new System.Numerics.BigInteger(currQ.Count), 11)} calculations");
+                prevSteps = cube.steps;
+                Console.WriteLine($"step: {prevSteps}. currQ.Count: {currQ.Count}");
             }
         }
-        Console.WriteLine($"no solution found after {steps} steps");
-
+        Console.WriteLine($"no solution found after {prevSteps} steps");
     }
 }
