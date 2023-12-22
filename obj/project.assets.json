@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\felip\\vsprojs\\rubiks cube solver\\leetcode.csproj",
-      "projectName": "leetcode",
-      "projectPath": "C:\\Users\\felip\\vsprojs\\rubiks cube solver\\leetcode.csproj",
+      "projectUniqueName": "C:\\Users\\felip\\vsprojs\\rubiks cube solver\\rubikscubesolver.csproj",
+      "projectName": "rubikscubesolver",
+      "projectPath": "C:\\Users\\felip\\vsprojs\\rubiks cube solver\\rubikscubesolver.csproj",
       "packagesPath": "C:\\Users\\felip\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\felip\\vsprojs\\rubiks cube solver\\obj\\",
       "projectStyle": "PackageReference",
