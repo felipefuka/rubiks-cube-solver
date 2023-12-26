@@ -1,6 +1,9 @@
 using System.Text;
 
 public class RubiksCube {
+        public static int SIMPLIFIED_MOVE_SET = 18;
+        public static int COMPLETE_MOVE_SET = 18;
+        public static int MAX_CROSSES_COUNT = 24;
 
         public int size = 3;
 
