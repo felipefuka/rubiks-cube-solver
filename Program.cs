@@ -46,8 +46,7 @@ internal class Program
         // Console.WriteLine($"rubiks.IsSolved() == {result}");
 
         // BFS.Search(rubiks);
-        // List<int> minMoves = new List<int>();
-        // DFS.Search(rubiks, minMoves, new HashSet<int>(), new List<int>());
+        DFS.Search(rubiks);
     }
 
     

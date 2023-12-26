@@ -1,36 +1,51 @@
 public class DFS {
-    public static void Search(RubiksCube rubiks, List<int> minMoves, HashSet<int> visited, List<int> moves) 
+    public static void Search(RubiksCube rubiks) 
         {
-            if (rubiks.IsSolved())
+            int depth = 25; // TODO: get DB-backed depth;
+            HashSet<int> visited = new();
+            for (int i = 0; i < depth; i++)
             {
-                Console.WriteLine($"rubiks.IsSolved(): {string.Join(',', moves.Select(x => rubiks.moveDictionary[x]))}");
-                if (minMoves.Count == 0 || moves.Count < minMoves.Count)
-                {
-                    minMoves = new List<int>(moves);
-                }
-                return;
-            } else if (moves.Count > 30)
-            {
-                return;
+                var (found, remaining) = DLS(rubiks, depth, visited);
+                if (found != null)
+                    // return found;
+                    return;
+                else if (!remaining)
+                    return ;
             }
+        }
 
-            for (int i = 0; i < 12; i++)
+        private static (RubiksCube, bool) DLS(RubiksCube rubiks, int depth, HashSet<int> visited) {
+            if (depth == 0)
             {
-                moves.Add(i);
-                rubiks.Move(i);
-                if (visited.Add(rubiks.GetHash()))
+                if (rubiks.IsSolved())
                 {
-                    DFS(rubiks, minMoves, visited, moves);
-                }
-                if (i % 2 == 0)
-                {
-                    rubiks.Move(i + 1);
+                    rubiks.PrintMoveSet();
+                    return (rubiks, true);
                 } else
                 {
-                    rubiks.Move(i - 1);
+                    return (null, true);
                 }
-                rubiks.RemoveLastMove();
-                moves.RemoveAt(moves.Count - 1);
+            } else {
+                bool anyRemaining = false;
+                // TODO: implement A*
+                // foreach (var nextRubiks in rubiks.AStar())
+                for (int i = 0; i < 12; i++)
+                {
+                    var child = new RubiksCube(rubiks);
+                    child.Move(i);
+                    if (!visited.Add(child.GetHash()))
+                        continue;
+                    var (found, remaining) = DLS(child, depth - 1, visited);
+                    if (found != null)
+                    {
+                        return (found, true);
+                    }
+                    if (remaining == true) {
+                        anyRemaining = true;
+                    }
+                }
+
+                return (null, anyRemaining);
             }
         }
 }
